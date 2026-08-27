@@ -14,7 +14,6 @@ import {
   sectionCardStyle,
   sectionTitleStyle,
   buttonBaseStyle,
-  inputBaseStyle,
 } from "@/lib/theme";
 import { HistoryBarChart } from "@/components/HistoryBarChart";
 import { DomainListEditor } from "@/components/DomainListEditor";
@@ -181,11 +180,6 @@ export default function App() {
     mutateSettings({ widgetEnabled: e.target.checked }).then(bump);
   };
 
-  const handleAnimationBundleChange = (
-    e: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    mutateSettings({ animationBundle: e.target.value }).then(bump);
-  };
 
   // --- export handler ---
   const handleExport = async () => {
@@ -452,34 +446,11 @@ export default function App() {
             </div>
           </Section>
 
-          {/* ----------------------------------------------------------- */}
-          {/* 4. Animation Bundle */}
-          {/* ----------------------------------------------------------- */}
-          <Section index={3}>
-            <h2 style={sectionTitleStyle}>Animation Bundle</h2>
-            <span style={labelStyle}>
-              Select the visual theme for garden animations.
-            </span>
-            <select
-              value={settings?.animationBundle ?? "zen-garden"}
-              onChange={handleAnimationBundleChange}
-              style={{
-                ...inputBaseStyle,
-                cursor: "pointer",
-                minWidth: 180,
-              }}
-            >
-              <option value="zen-garden">Zen Garden</option>
-              <option value="pixel-forest">Pixel Forest</option>
-              <option value="ocean-depths">Ocean Depths</option>
-              <option value="cosmic-garden">Cosmic Garden</option>
-            </select>
-          </Section>
 
           {/* ----------------------------------------------------------- */}
           {/* 5. Stats History */}
           {/* ----------------------------------------------------------- */}
-          <Section index={4}>
+          <Section index={3}>
             <h2 style={sectionTitleStyle}>Stats History</h2>
             <div style={{ marginBottom: 12 }}>
               <ToggleGroup
@@ -517,7 +488,7 @@ export default function App() {
           {/* ----------------------------------------------------------- */}
           {/* 6. Import / Export */}
           {/* ----------------------------------------------------------- */}
-          <Section index={5}>
+          <Section index={4}>
             <h2 style={sectionTitleStyle}>Import / Export</h2>
             <span style={labelStyle}>
               Back up your garden data or restore from a previous backup.
@@ -562,7 +533,7 @@ export default function App() {
           {/* ----------------------------------------------------------- */}
           {/* 7. Reset Garden */}
           {/* ----------------------------------------------------------- */}
-          <Section index={6}>
+          <Section index={5}>
             <h2
               style={{
                 ...sectionTitleStyle,

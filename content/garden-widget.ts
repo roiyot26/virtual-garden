@@ -69,9 +69,8 @@ export function createGardenWidget(): GardenWidgetAPI {
   let adapter: AnimationAdapter | null = null;
 
   // --- Load animation bundle ---
-  settingsStorage.getValue().then((settings) => {
-    const bundleId = settings?.animationBundle ?? "zen-garden";
-    return loadBundle(bundleId);
+  settingsStorage.getValue().then(() => {
+    return loadBundle("zen-garden");
   })
     .then(async (manifest) => {
       const compositor = new SceneCompositor(manifest);

@@ -2,46 +2,61 @@
   "version": 1,
   "id": "zen-garden",
   "name": "Zen Garden",
-  "description": "Tranquil Japanese garden with sky moods and floating petals",
+  "description": "A dish garden that thrives with focus and wilts with neglect",
   "defaultTransitionMs": 800,
   "layers": [
     {
-      "id": "sky",
-      "name": "Sky Gradient",
-      "engine": "css",
+      "id": "scene",
+      "name": "Garden Scene",
+      "engine": "canvas",
       "zIndex": 0,
       "phaseStrategy": {
         "type": "parameters",
         "params": {
-          "1": { "bg-start": "#f6d365", "bg-mid": "#b8d86b", "bg-end": "#a8cc60", "glow": "0 0 30px rgba(246,211,101,0.3)" },
-          "2": { "bg-start": "#e8d5b7", "bg-mid": "#a8c69f", "bg-end": "#8bb88a", "glow": "0 0 20px rgba(139,184,138,0.25)" },
-          "3": { "bg-start": "#d5cfc0", "bg-mid": "#c0b9aa", "bg-end": "#aca694", "glow": "0 0 10px rgba(172,166,148,0.2)" },
-          "4": { "bg-start": "#b0a8a0", "bg-mid": "#968a82", "bg-end": "#7a6e6a", "glow": "0 0 10px rgba(122,110,106,0.15)" },
-          "5": { "bg-start": "#6b6278", "bg-mid": "#524960", "bg-end": "#3c3448", "glow": "0 0 15px rgba(60,52,72,0.3)" }
+          "1": {
+            "skyTop": "#e9f2f6",
+            "skyMid": "#f0e6d0",
+            "skyBot": "#d4c4a8",
+            "sun": "#fff4c2",
+            "hill": "rgba(90,140,70,0.55)",
+            "petals": 14
+          },
+          "2": {
+            "skyTop": "#e8d5b7",
+            "skyMid": "#b8d4a8",
+            "skyBot": "#cbb89a",
+            "sun": "#f4e3b0",
+            "hill": "rgba(100,140,90,0.45)",
+            "petals": 10
+          },
+          "3": {
+            "skyTop": "#d5cfc0",
+            "skyMid": "#c0b9aa",
+            "skyBot": "#aca694",
+            "sun": "#e8dcc0",
+            "hill": "rgba(120,130,100,0.35)",
+            "petals": 6
+          },
+          "4": {
+            "skyTop": "#d4c8b0",
+            "skyMid": "#c4b494",
+            "skyBot": "#b8a078",
+            "sun": "#e0d0a8",
+            "hill": "rgba(140,110,70,0.3)",
+            "petals": 2
+          },
+          "5": {
+            "skyTop": "#e4d8c4",
+            "skyMid": "#d9cbb0",
+            "skyBot": "#c4b090",
+            "sun": "#e0d0a8",
+            "hill": "rgba(150,120,70,0.28)",
+            "petals": 0
+          }
         }
       },
       "engineConfig": {
-        "inlineCSS": ".css-layer-content { background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-mid) 50%, var(--bg-end) 100%); box-shadow: var(--glow); border-radius: inherit; transition: background 0.8s ease, box-shadow 0.8s ease; }"
-      }
-    },
-    {
-      "id": "sand",
-      "name": "Sand Pattern",
-      "engine": "css",
-      "zIndex": 1,
-      "opacity": 0.4,
-      "phaseStrategy": {
-        "type": "parameters",
-        "params": {
-          "1": { "pattern-opacity": "0.6", "pattern-color": "rgba(210,190,160,0.5)", "line-count": "8" },
-          "2": { "pattern-opacity": "0.5", "pattern-color": "rgba(200,180,150,0.4)", "line-count": "6" },
-          "3": { "pattern-opacity": "0.3", "pattern-color": "rgba(180,170,150,0.3)", "line-count": "4" },
-          "4": { "pattern-opacity": "0.2", "pattern-color": "rgba(150,140,130,0.25)", "line-count": "3" },
-          "5": { "pattern-opacity": "0.1", "pattern-color": "rgba(100,90,80,0.15)", "line-count": "1" }
-        }
-      },
-      "engineConfig": {
-        "inlineCSS": ".css-layer-content { opacity: var(--pattern-opacity); background: repeating-linear-gradient(0deg, transparent, transparent 8px, var(--pattern-color) 8px, var(--pattern-color) 9px); transition: opacity 0.8s ease, background 0.8s ease; }"
+        "drawFunction": "zenScene"
       }
     },
     {
@@ -50,16 +65,41 @@
       "engine": "canvas",
       "zIndex": 3,
       "lazy": true,
-      "opacity": 0.6,
+      "opacity": 0.7,
       "blendMode": "screen",
       "phaseStrategy": {
         "type": "parameters",
         "params": {
-          "1": { "count": 15, "speed": 0.4, "color": "rgba(255,200,200,0.6)", "size": 3 },
-          "2": { "count": 10, "speed": 0.3, "color": "rgba(200,220,180,0.5)", "size": 2.5 },
-          "3": { "count": 5, "speed": 0.2, "color": "rgba(180,180,170,0.3)", "size": 2 },
-          "4": { "count": 2, "speed": 0.15, "color": "rgba(140,120,110,0.2)", "size": 1.5 },
-          "5": { "count": 0, "speed": 0, "color": "rgba(0,0,0,0)", "size": 1 }
+          "1": {
+            "count": 10,
+            "speed": 0.4,
+            "color": "rgba(255,200,200,0.6)",
+            "size": 3
+          },
+          "2": {
+            "count": 7,
+            "speed": 0.3,
+            "color": "rgba(200,220,180,0.5)",
+            "size": 2.5
+          },
+          "3": {
+            "count": 4,
+            "speed": 0.2,
+            "color": "rgba(180,180,170,0.3)",
+            "size": 2
+          },
+          "4": {
+            "count": 1,
+            "speed": 0.12,
+            "color": "rgba(160,120,90,0.25)",
+            "size": 1.5
+          },
+          "5": {
+            "count": 0,
+            "speed": 0,
+            "color": "rgba(0,0,0,0)",
+            "size": 1
+          }
         }
       },
       "engineConfig": {

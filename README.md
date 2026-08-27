@@ -2,7 +2,7 @@
 
 A Chrome extension: a zen garden that thrives with your productivity.
 
-Time on sites you mark productive (code, docs, design) grows it. Time on the rest lets it wilt. Five phases (Thriving to Neglected) with hysteresis, so it does not flicker at the edges. A widget sits on the page. The popup shows today's score. Options lets you edit domain lists and pick an animation bundle.
+Time on sites you mark productive (code, docs, design) grows it. Time on the rest lets it wilt. Five phases (Thriving to Neglected) with hysteresis, so it does not flicker at the edges. A widget sits on the page. The popup shows today's score. Options lets you edit domain lists.
 
 ## Load unpacked
 

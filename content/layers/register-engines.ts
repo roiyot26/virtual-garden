@@ -4,10 +4,8 @@ import { CanvasLayerRenderer } from "./renderers/canvas-renderer";
 import { LottieLayerRenderer } from "./renderers/lottie-renderer";
 import {
   floatingParticles,
-  twinklingStars,
-  risingBubbles,
-  pixelDust,
 } from "./renderers/builtin-draws";
+import { zenScene } from "./renderers/garden-scenes";
 
 export function registerAllEngines(): void {
   SceneCompositor.registerEngine(
@@ -24,7 +22,5 @@ export function registerAllEngines(): void {
   );
 
   CanvasLayerRenderer.registerDrawFunction("floatingParticles", floatingParticles);
-  CanvasLayerRenderer.registerDrawFunction("twinklingStars", twinklingStars);
-  CanvasLayerRenderer.registerDrawFunction("risingBubbles", risingBubbles);
-  CanvasLayerRenderer.registerDrawFunction("pixelDust", pixelDust);
+  CanvasLayerRenderer.registerDrawFunction("zenScene", zenScene);
 }

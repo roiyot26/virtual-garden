@@ -43,6 +43,9 @@ export function getWidgetStyles(): string {
     .garden-container.compact {
       width: 80px;
       height: 80px;
+      border-radius: 50%;
+      background: transparent;
+      box-shadow: 0 8px 18px rgba(40, 30, 20, 0.22);
     }
 
     /* === Expanded mode === */
@@ -193,7 +196,16 @@ export function getWidgetStyles(): string {
 
     .phase-neglected .garden-display {
       opacity: 0.6;
-      filter: saturate(0.4);
+    }
+
+    .garden-container.compact.phase-thriving,
+    .garden-container.compact.phase-serene,
+    .garden-container.compact.phase-neutral,
+    .garden-container.compact.phase-unsettled,
+    .garden-container.compact.phase-neglected {
+      background: transparent;
+      animation: none;
+      box-shadow: 0 8px 18px rgba(40, 30, 20, 0.22);
     }
   `;
 }
