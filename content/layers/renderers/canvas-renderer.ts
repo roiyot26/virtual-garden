@@ -5,6 +5,7 @@ import type {
 } from "../layer-renderer";
 import type { LayerConfig } from "../layer-config";
 import type { GardenPhase } from "../../../lib/types";
+import { zenScene } from "./garden-scenes";
 
 export type DrawFunction = (
   ctx: CanvasRenderingContext2D,
@@ -61,8 +62,9 @@ export class CanvasLayerRenderer implements LayerRenderer {
     this.canvas = document.createElement("canvas");
     this.canvas.width = viewport.width * dpr;
     this.canvas.height = viewport.height * dpr;
-    this.canvas.style.width = "100%";
-    this.canvas.style.height = "100%";
+    this.canvas.style.width = `${viewport.width}px`;
+    this.canvas.style.height = `${viewport.height}px`;
+    this.canvas.style.display = "block";
 
     this.ctx = this.canvas.getContext("2d");
     if (this.ctx) {
@@ -75,15 +77,13 @@ export class CanvasLayerRenderer implements LayerRenderer {
     const drawFnName = this.config.engineConfig?.drawFunction;
     if (typeof drawFnName === "string") {
       this.drawFn = CanvasLayerRenderer.drawFunctions.get(drawFnName) ?? null;
-      if (!this.drawFn) {
-        console.warn(
-          `[CanvasLayerRenderer] Draw function "${drawFnName}" not registered`,
-        );
-      }
+    }
+    if (!this.drawFn) {
+      this.drawFn = zenScene;
     }
 
-    // Start the render loop
     this.running = true;
+    this.paint();
     this.tick();
   }
 
@@ -98,6 +98,7 @@ export class CanvasLayerRenderer implements LayerRenderer {
         this.currentParams = { ...params };
       }
     }
+    this.paint();
   }
 
   setViewport(viewport: LayerViewport): void {
@@ -115,6 +116,7 @@ export class CanvasLayerRenderer implements LayerRenderer {
 
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.scale(dpr, dpr);
+    this.paint();
   }
 
   pause(): void {
@@ -146,20 +148,26 @@ export class CanvasLayerRenderer implements LayerRenderer {
     this.drawFn = null;
   }
 
+  private paint(): void {
+    if (!this.ctx || !this.drawFn) return;
+    try {
+      this.ctx.clearRect(0, 0, this.viewportWidth, this.viewportHeight);
+      this.drawFn(
+        this.ctx,
+        this.viewportWidth,
+        this.viewportHeight,
+        this.currentPhase,
+        this.currentParams,
+        performance.now(),
+      );
+    } catch {
+      // keep the loop alive even if one frame throws
+    }
+  }
+
   private tick = (): void => {
     if (!this.running || !this.ctx || !this.drawFn) return;
-
-    this.ctx.clearRect(0, 0, this.viewportWidth, this.viewportHeight);
-
-    this.drawFn(
-      this.ctx,
-      this.viewportWidth,
-      this.viewportHeight,
-      this.currentPhase,
-      this.currentParams,
-      performance.now(),
-    );
-
+    this.paint();
     this.rafId = requestAnimationFrame(this.tick);
   };
 }

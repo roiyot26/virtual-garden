@@ -8,7 +8,6 @@ export default defineContentScript({
   runAt: "document_idle",
 
   main() {
-    // Skip injection on internal browser pages
     const url = window.location.href;
     if (
       url.startsWith("chrome://") ||
@@ -20,17 +19,13 @@ export default defineContentScript({
 
     const widget = createGardenWidget();
 
-    // Listen for phase change messages from background
-    browser.runtime.onMessage.addListener(
-      (message: unknown) => {
-        const msg = message as PhaseChangeMessage;
-        if (msg.type === "PHASE_CHANGE") {
-          widget.setPhase(msg.payload.phase);
-        }
-      },
-    );
+    browser.runtime.onMessage.addListener((message: unknown) => {
+      const msg = message as PhaseChangeMessage;
+      if (msg.type === "PHASE_CHANGE") {
+        widget.setPhase(msg.payload.phase);
+      }
+    });
 
-    // Fetch initial garden state
     browser.runtime
       .sendMessage({ type: "GET_GARDEN_STATE" })
       .then((response: unknown) => {

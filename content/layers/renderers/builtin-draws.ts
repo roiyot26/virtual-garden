@@ -48,6 +48,7 @@ export function floatingParticles(
   params: Record<string, unknown>,
   timeMs: number,
 ): void {
+  if (width < 120) return;
   const state = getState(ctx);
 
   const count = typeof params.count === "number" ? params.count : 30;
