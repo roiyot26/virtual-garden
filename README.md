@@ -1,21 +1,23 @@
 # Virtual Garden
 
-A Chrome extension: a zen garden that thrives with your productivity.
+![A quiet zen dish: pine and a stone in sand](docs/zen.png)
 
-Time on sites you mark productive (code, docs, design) grows it. Time on the rest lets it wilt. Five phases (Thriving to Neglected) with hysteresis, so it does not flicker at the edges. A garden sits on the page. Pick zen, cosmic, ocean, or pixel in Options. The popup shows today's score.
+A garden that sits on the page. Time on sites you mark productive grows it. The rest lets it wilt.
 
-The four looks play here: https://roiyot26.github.io/virtual-garden/
+Four looks: zen, cosmic, ocean, pixel. Zen is the picture. Pick in Options.
+
+See them live: https://roiyot26.github.io/virtual-garden/
 
 ## Load unpacked
 
-npm i
-npm run build
+    npm i
+    npm run build
 
-Chrome → Extensions → Developer mode → Load unpacked → `.output/chrome-mv3`.
+Chrome to Extensions, Developer mode, then the chrome-mv3 folder under output.
 
 ## Tests
 
-npm test
+    npm test
 
 Scoring: productive / (productive + non-productive). Neutral sites do not dilute it. Under five minutes of tracked time the garden stays at 50.
 
