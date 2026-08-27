@@ -14,6 +14,7 @@ import {
   sectionCardStyle,
   sectionTitleStyle,
   buttonBaseStyle,
+  inputBaseStyle,
 } from "@/lib/theme";
 import { HistoryBarChart } from "@/components/HistoryBarChart";
 import { DomainListEditor } from "@/components/DomainListEditor";
@@ -178,6 +179,12 @@ export default function App() {
 
   const handleWidgetEnabledChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     mutateSettings({ widgetEnabled: e.target.checked }).then(bump);
+  };
+
+  const handleAnimationBundleChange = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    mutateSettings({ animationBundle: e.target.value }).then(bump);
   };
 
 
@@ -446,6 +453,28 @@ export default function App() {
             </div>
           </Section>
 
+
+
+          {/* ----------------------------------------------------------- */}
+          {/* 4. Look */}
+          {/* ----------------------------------------------------------- */}
+          <Section index={3}>
+            <h2 style={sectionTitleStyle}>Look</h2>
+            <select
+              value={settings?.animationBundle ?? "zen-garden"}
+              onChange={handleAnimationBundleChange}
+              style={{
+                ...inputBaseStyle,
+                cursor: "pointer",
+                minWidth: 180,
+              }}
+            >
+              <option value="zen-garden">Zen Garden</option>
+              <option value="cosmic-garden">Cosmic Garden</option>
+              <option value="ocean-depths">Ocean Depths</option>
+              <option value="pixel-forest">Pixel Forest</option>
+            </select>
+          </Section>
 
           {/* ----------------------------------------------------------- */}
           {/* 5. Stats History */}

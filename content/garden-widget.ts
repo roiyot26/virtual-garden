@@ -1,11 +1,12 @@
 import { GardenPhase } from "@/lib/types";
 import { getWidgetStyles } from "@/content/widget-styles";
-import { zenScene } from "@/content/layers/renderers/garden-scenes";
+import { BUNDLE_SCENES, zenScene } from "@/content/layers/renderers/garden-scenes";
 
 const SIZE = 80;
 
 export interface GardenWidgetAPI {
   setPhase(phase: GardenPhase): void;
+  setBundle(bundleId: string): void;
   setExpanded(expanded: boolean): void;
   destroy(): void;
 }
@@ -35,6 +36,7 @@ export function createGardenWidget(): GardenWidgetAPI {
 
   const ctx = canvas.getContext("2d");
   let currentPhase: GardenPhase = GardenPhase.Neutral;
+  let currentBundle = "zen-garden";
   let rafId = 0;
   let running = true;
 
@@ -42,7 +44,8 @@ export function createGardenWidget(): GardenWidgetAPI {
     if (!ctx) return;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, SIZE, SIZE);
-    zenScene(ctx, SIZE, SIZE, currentPhase, {}, timeMs);
+    const draw = BUNDLE_SCENES[currentBundle] ?? zenScene;
+    draw(ctx, SIZE, SIZE, currentPhase, {}, timeMs);
   }
 
   paint(0);
@@ -71,8 +74,12 @@ export function createGardenWidget(): GardenWidgetAPI {
       currentPhase = phase;
       paint(performance.now());
     },
+    setBundle(bundleId: string) {
+      currentBundle = bundleId;
+      paint(performance.now());
+    },
     setExpanded(_expanded: boolean) {
-      // Compact only.
+      // Compact only. No HUD.
     },
     destroy() {
       running = false;

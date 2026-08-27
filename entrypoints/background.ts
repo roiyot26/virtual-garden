@@ -146,6 +146,16 @@ async function handleMessage(
       const current = await settingsStorage.getValue();
       const merged = { ...current, ...newSettings };
       await settingsStorage.setValue(merged);
+      const tabs = await browser.tabs.query({});
+      for (const tab of tabs) {
+        if (tab.id == null) continue;
+        browser.tabs
+          .sendMessage(tab.id, {
+            type: "SETTINGS_CHANGE",
+            payload: { animationBundle: merged.animationBundle },
+          })
+          .catch(() => {});
+      }
       return merged;
     }
 

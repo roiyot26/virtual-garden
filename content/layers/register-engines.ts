@@ -5,7 +5,7 @@ import { LottieLayerRenderer } from "./renderers/lottie-renderer";
 import {
   floatingParticles,
 } from "./renderers/builtin-draws";
-import { zenScene } from "./renderers/garden-scenes";
+import { cosmicScene, oceanScene, pixelScene, zenScene } from "./renderers/garden-scenes";
 
 export function registerAllEngines(): void {
   SceneCompositor.registerEngine(
@@ -23,4 +23,8 @@ export function registerAllEngines(): void {
 
   CanvasLayerRenderer.registerDrawFunction("floatingParticles", floatingParticles);
   CanvasLayerRenderer.registerDrawFunction("zenScene", zenScene);
+  CanvasLayerRenderer.registerDrawFunction("cosmicScene", cosmicScene);
+  CanvasLayerRenderer.registerDrawFunction("oceanScene", oceanScene);
+  CanvasLayerRenderer.registerDrawFunction("pixelScene", pixelScene);
 }
+

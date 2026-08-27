@@ -80,7 +80,8 @@ export type MessageType =
   | "PHASE_CHANGE"
   | "GET_DAILY_HISTORY"
   | "EXPORT_ALL_DATA"
-  | "IMPORT_ALL_DATA";
+  | "IMPORT_ALL_DATA"
+  | "SETTINGS_CHANGE";
 
 export interface Message<T extends MessageType = MessageType> {
   type: T;
