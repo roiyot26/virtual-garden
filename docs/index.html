@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Virtual Garden — types</title>
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font: 16px/1.45 ui-serif, "Iowan Old Style", Georgia, serif;
+      color: #2a241c;
+      background: #f4efe6;
+    }
+    main { max-width: 980px; margin: 0 auto; padding: 40px 20px 80px; }
+    h1 { font-size: 28px; font-weight: 600; margin: 0 0 8px; }
+    .lede { color: #5a5348; margin: 0 0 28px; max-width: 42em; }
+    .lede a { color: #2a241c; }
+    .phases { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 28px; }
+    .phases button {
+      font: inherit;
+      font-size: 13px;
+      border: 1px solid #c9c0b0;
+      background: #fff;
+      color: #2a241c;
+      padding: 6px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .phases button[aria-pressed="true"] { background: #2a241c; color: #f4efe6; border-color: #2a241c; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+    article {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(40,30,20,0.08);
+    }
+    canvas { display: block; width: 100%; height: auto; background: #ddd; }
+    .meta { padding: 14px 16px 16px; }
+    .meta h2 { margin: 0 0 4px; font-size: 18px; font-weight: 600; }
+    .meta p { margin: 0; color: #5a5348; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Virtual Garden</h1>
+    <p class="lede">
+      Four types. The Chrome extension on the page is the quiet zen dish.
+      Choose a look here. Load unpacked from
+      <a href="https://github.com/roiyot26/virtual-garden">the repo</a>.
+    </p>
+    <div class="phases" role="group" aria-label="Garden phase">
+      <button type="button" data-phase="1" aria-pressed="true">Thriving</button>
+      <button type="button" data-phase="2">Serene</button>
+      <button type="button" data-phase="3">Neutral</button>
+      <button type="button" data-phase="4">Unsettled</button>
+      <button type="button" data-phase="5">Neglected</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </main>
+  <script type="module">
+    import { SCENES } from "./scenes.js";
+
+    let phase = 1;
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    const W = 480;
+    const H = 260;
+
+    const grid = document.getElementById("grid");
+    const cards = SCENES.map((scene) => {
+      const article = document.createElement("article");
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      canvas.style.aspectRatio = `${W} / ${H}`;
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      meta.innerHTML = `<h2>${scene.name}</h2><p>${scene.blurb}</p>`;
+      article.append(canvas, meta);
+      grid.append(article);
+      const ctx = canvas.getContext("2d");
+      return { scene, ctx, dpr };
+    });
+
+    function frame(t) {
+      for (const { scene, ctx, dpr } of cards) {
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, W, H);
+        scene.draw(ctx, W, H, phase, {}, t);
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+
+    document.querySelector(".phases").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-phase]");
+      if (!btn) return;
+      phase = Number(btn.dataset.phase);
+      for (const b of document.querySelectorAll(".phases button")) {
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false");
+      }
+    });
+  </script>
+</body>
+</html>
