@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "id": "cosmic-garden",
+  "name": "Cosmic Garden",
+  "description": "Deep space nebula with twinkling stars and cosmic dust",
+  "defaultTransitionMs": 1200,
+  "layers": [
+    {
+      "id": "nebula",
+      "name": "Nebula Gradient",
+      "engine": "css",
+      "zIndex": 0,
+      "phaseStrategy": {
+        "type": "parameters",
+        "params": {
+          "1": { "bg-start": "#2a0845", "bg-mid": "#6441a5", "bg-end": "#2a0845", "glow": "0 0 35px rgba(100,65,165,0.35)" },
+          "2": { "bg-start": "#220838", "bg-mid": "#4a3080", "bg-end": "#220838", "glow": "0 0 25px rgba(74,48,128,0.25)" },
+          "3": { "bg-start": "#180625", "bg-mid": "#302060", "bg-end": "#180625", "glow": "0 0 15px rgba(48,32,96,0.2)" },
+          "4": { "bg-start": "#100418", "bg-mid": "#1a0e30", "bg-end": "#100418", "glow": "0 0 10px rgba(26,14,48,0.15)" },
+          "5": { "bg-start": "#0a0510", "bg-mid": "#050208", "bg-end": "#020105", "glow": "0 0 12px rgba(5,2,8,0.3)" }
+        }
+      },
+      "engineConfig": {
+        "inlineCSS": ".css-layer-content { background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-mid) 50%, var(--bg-end) 100%); box-shadow: var(--glow); border-radius: inherit; transition: background 1.2s ease, box-shadow 1.2s ease; }"
+      }
+    },
+    {
+      "id": "stardust",
+      "name": "Star Field",
+      "engine": "css",
+      "zIndex": 1,
+      "opacity": 0.4,
+      "phaseStrategy": {
+        "type": "parameters",
+        "params": {
+          "1": { "dust-opacity": "0.5", "dot-color": "rgba(255,255,255,0.6)", "dot-size": "2px" },
+          "2": { "dust-opacity": "0.4", "dot-color": "rgba(220,220,255,0.5)", "dot-size": "2px" },
+          "3": { "dust-opacity": "0.25", "dot-color": "rgba(180,180,220,0.35)", "dot-size": "1px" },
+          "4": { "dust-opacity": "0.12", "dot-color": "rgba(140,140,180,0.2)", "dot-size": "1px" },
+          "5": { "dust-opacity": "0.05", "dot-color": "rgba(100,100,140,0.1)", "dot-size": "1px" }
+        }
+      },
+      "engineConfig": {
+        "inlineCSS": ".css-layer-content { opacity: var(--dust-opacity); background: radial-gradient(var(--dot-size) var(--dot-size) at 20% 30%, var(--dot-color) 50%, transparent 50%), radial-gradient(var(--dot-size) var(--dot-size) at 60% 15%, var(--dot-color) 50%, transparent 50%), radial-gradient(var(--dot-size) var(--dot-size) at 85% 45%, var(--dot-color) 50%, transparent 50%), radial-gradient(var(--dot-size) var(--dot-size) at 40% 70%, var(--dot-color) 50%, transparent 50%), radial-gradient(var(--dot-size) var(--dot-size) at 75% 80%, var(--dot-color) 50%, transparent 50%), radial-gradient(var(--dot-size) var(--dot-size) at 10% 85%, var(--dot-color) 50%, transparent 50%), radial-gradient(var(--dot-size) var(--dot-size) at 50% 50%, var(--dot-color) 50%, transparent 50%); transition: opacity 1.2s ease; }"
+      }
+    },
+    {
+      "id": "stars",
+      "name": "Twinkling Stars",
+      "engine": "canvas",
+      "zIndex": 3,
+      "lazy": true,
+      "opacity": 0.8,
+      "blendMode": "screen",
+      "phaseStrategy": {
+        "type": "parameters",
+        "params": {
+          "1": { "count": 20, "speed": 0.05, "color": "rgba(255,255,255,0.9)", "size": 2, "twinkleSpeed": 2.5 },
+          "2": { "count": 15, "speed": 0.04, "color": "rgba(220,220,255,0.7)", "size": 1.8, "twinkleSpeed": 2 },
+          "3": { "count": 8, "speed": 0.03, "color": "rgba(180,180,220,0.5)", "size": 1.5, "twinkleSpeed": 1.5 },
+          "4": { "count": 4, "speed": 0.02, "color": "rgba(140,140,180,0.3)", "size": 1.2, "twinkleSpeed": 1 },
+          "5": { "count": 2, "speed": 0.01, "color": "rgba(100,100,140,0.2)", "size": 1, "twinkleSpeed": 0.5 }
+        }
+      },
+      "engineConfig": {
+        "drawFunction": "twinklingStars"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+import { SceneCompositor } from "./scene-compositor";
+import { CSSLayerRenderer } from "./renderers/css-renderer";
+import { CanvasLayerRenderer } from "./renderers/canvas-renderer";
+import { LottieLayerRenderer } from "./renderers/lottie-renderer";
+import {
+  floatingParticles,
+  twinklingStars,
+  risingBubbles,
+  pixelDust,
+} from "./renderers/builtin-draws";
+
+export function registerAllEngines(): void {
+  SceneCompositor.registerEngine(
+    "css",
+    (config, bundleId) => new CSSLayerRenderer(config, bundleId),
+  );
+  SceneCompositor.registerEngine(
+    "canvas",
+    (config, bundleId) => new CanvasLayerRenderer(config, bundleId),
+  );
+  SceneCompositor.registerEngine(
+    "lottie",
+    (config, bundleId) => new LottieLayerRenderer(config, bundleId),
+  );
+
+  CanvasLayerRenderer.registerDrawFunction("floatingParticles", floatingParticles);
+  CanvasLayerRenderer.registerDrawFunction("twinklingStars", twinklingStars);
+  CanvasLayerRenderer.registerDrawFunction("risingBubbles", risingBubbles);
+  CanvasLayerRenderer.registerDrawFunction("pixelDust", pixelDust);
+}
