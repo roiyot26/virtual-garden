@@ -78,7 +78,7 @@ function drawCompactObject(
   healthy: number,
 ): void {
   const cx = w / 2;
-  const cy = h / 2 + 4;
+  const cy = h / 2 - 2;
 
   ctx.save();
   ctx.shadowColor = "rgba(40,30,20,0.28)";
