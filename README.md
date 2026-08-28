@@ -13,7 +13,7 @@ See them live: https://roiyot26.github.io/virtual-garden/
     npm i
     npm run build
 
-Chrome to Extensions, Developer mode, then the chrome-mv3 folder under output.
+Chrome to Extensions, Developer mode, Load unpacked, `.output/chrome-mv3`.
 
 ## Tests
 
